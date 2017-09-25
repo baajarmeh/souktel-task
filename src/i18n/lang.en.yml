@@ -1,0 +1,58 @@
+titles:
+  employeer:  Employeer
+  jobs: Jobs
+  profile: Profile
+  logout: Log out
+
+footer:
+  powered_by: Powered by
+  world_learning: World Learning
+
+filters:
+  name: Name
+  location: Location
+  gender: Gender
+  male: Male
+  female: Female
+  any: Any
+  find_candidate: Find Candidate
+  find_a_candidate: Find a Candidate
+
+modal:
+  title: User Detials
+  full_name: Full name
+  location: Location
+  email: Email
+  registered: Registered
+  dob: BrithDate
+
+card:
+  contact: CONTACT
+
+button:
+  close: Close
+
+loading:
+  get_users: Loading user randoms...
+  loading: Loading...
+
+paginate:
+  prev: "Prev"
+  next: "Next"
+  
+errors:
+  failed_request: Request failed
+  get_users: Failed to load user details
+
+locations:
+  please_select_location: Please select location
+  au: Australia
+  br: Brazil
+  ca: Canada
+  ch: China
+  dk: Denmark
+  es: Spain
+  fr: France
+  gb: United Kingdom
+  nl: Netherlands
+  us: United States
