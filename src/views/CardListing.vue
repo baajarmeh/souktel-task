@@ -41,20 +41,6 @@
                         align="right"
                         @input="setPage">
           </b-pagination>
-          <!-- <paginate v-if="pageCount"
-                    :page-count="pageCount"
-                    :clickHandler="paginateUsers"
-                    :container-class="'pagination'"
-                    :page-class="'page-item'"
-                    :page-link-class="'page-link'"
-                    :prev-class="'page-item'"
-                    :prev-link-class="'page-link'"
-                    :next-class="'page-item'"
-                    :next-link-class="'page-link'">
-          </paginate>
-          <div v-else>
-            {{ $t('loading.loading') }}
-          </div> -->
         </b-col>
       </b-row>
     </div>
@@ -72,13 +58,12 @@ import config from '@/config'
 
 export default {
   name: 'card-listing-view',
-  // props: ['currentPage', 'itemsPerPage', 'resultCount'],
   components: {
     AppFilters
   },
   data() {
     return {
-      limit: 10,
+      limit: 7,
       hide: true,
       itemsPerPage: config.itemsPerPage,
       currentPage: 1
@@ -109,12 +94,11 @@ export default {
       }
       return _.slice(this.users, (this.itemsPerPage * (this.currentPage - 1)), (this.currentPage * this.itemsPerPage))
     },
-    // paginator page count depend on name filter one page otherwise 10 pages
     setPage: function(pageNumber) {
       this.currentPage = pageNumber
       this.filters.page = pageNumber
     },
-    // once click on user name setUserDetial to store
+    // once click on user name setUserDetail to store
     openUserModal(u) {
       this.$store.dispatch('setUserDetail', {
         username: u.login.username,
@@ -128,11 +112,11 @@ export default {
       })
     }
   },
-  // clear users from store before destory
+  // clear users from store before destroy
   beforeDestroy() {
     this.$store.dispatch('clearUsers')
   },
-  // retrives random users from api before create view
+  // retrieves random users from api before create view
   created() {
     this.$store.dispatch('getRandomUsers', this.filters)
   }

@@ -35,8 +35,8 @@
     data () {
       return {
         name: '',
-        location: '',
-        gender: '',
+        location: null,
+        gender: 'any',
         filters: {
           nat: null,
           gender: null,
@@ -44,7 +44,7 @@
           page: 1
         },
         locations: [
-          { value: null, text: this.$i18n.t('locations.please_select_location'), selected: 'selected' },
+          { value: null, text: this.$i18n.t('locations.please_select_location') },
           { value: 'au', text: this.$i18n.t('locations.au') },
           { value: 'br', text: this.$i18n.t('locations.br') },
           { value: 'ca', text: this.$i18n.t('locations.ca') },
@@ -57,14 +57,14 @@
           { value: 'us', text: this.$i18n.t('locations.us') }
         ],
         genders: [
-          { value: 'any', text: this.$i18n.t('filters.any'), selected: 'selected' },
+          { value: 'any', text: this.$i18n.t('filters.any') },
           { value: 'male', text: this.$i18n.t('filters.male') },
           { value: 'female', text: this.$i18n.t('filters.female') }
         ]
       }
     },
     watch: {
-      // once typing name filters users contains your typing otherwise retrives random users
+      // if typing name then filter users contains in first or last name otherwise retrieves random users
       name(val) {
         if (!_.isEmpty(val)) {
           this.$store.dispatch("filterUsersByName", val)

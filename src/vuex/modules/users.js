@@ -42,11 +42,11 @@ const getters = {
 }
 
 const actions = {
-  // pass user detials to modal
+  // save user details for showing in modal
   setUserDetail({ commit }, payload) {
     commit('setUserDetail', payload)
   },
-  // for clear users from state
+  // clear users from state and local storage
   clearUsers({ commit }) {
     commit('clearUsers')
   },
@@ -54,22 +54,25 @@ const actions = {
   setFilters({ commit }, payload) {
     commit('setFilters', payload)
   },
-  // async method for retrives random users from api using axios
+  // async method for retrieves random users from api using axios and saving on local-storage
   async getRandomUsers({ commit, dispatch }, payload) {
     dispatch('startWorking', i18n.t('loading.get_users'))
 
     var params = queryString.stringify(payload)
 
-    let {data} = await axios.get(`${config.api}?${params}`)
+    let {data} = await axios.get(`${config.api}?${params}`, {timeout: 6000})
+    const users = _.values(data.results)
     commit('setUsers', {
-      users: _.values(data.results),
+      users: users,
       resultCount: data.info.results,
       currentPage: data.info.page
     })
+  
+    Vue.localStorage.set('randomUsers', JSON.stringify(users))
 
     dispatch('stopWorking', i18n.t('loading.get_users'))
   },
-  // once typing name filter results data matching this name
+  // filter results data by name matching
   filterUsersByName({ commit }, name) {
     const data = _.filter(state.users, _.method('name.first.match', new RegExp(name, 'i')) ||
                                       _.method('name.last.match', new RegExp(name, 'i')));
@@ -80,10 +83,11 @@ const actions = {
       currentPage: 1
     })
   },
-  // reset users for given from localStorage
+  // reset users for get from local-storage
   resetUsers({ commit }) {
     commit('resetUsers')
   },
+  // save filtered once search by name
   isFiltered({ commit }, filtered) {
     commit('isFiltered', filtered)
   },
@@ -110,10 +114,9 @@ const mutations = {
     state.users = payload.users
     state.resultCount = payload.resultCount
     state.currentPage = payload.currentPage
-    Vue.localStorage.set('randomUsers', payload.users)
   },
   resetUsers(state) {
-    state.users = Vue.localStorage.get('randomUsers', [])
+    state.users = JSON.parse(Vue.localStorage.get('randomUsers', []))
     state.resultCount = _.size(state.users)
     state.currentPage = 1
   },
